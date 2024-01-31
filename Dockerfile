@@ -99,17 +99,6 @@ ENV ZIP_SUBDIR true
 # Write the verbose logs to $LOGS_DIR/$codename instead of $LOGS_DIR/
 ENV LOGS_SUBDIR true
 
-# Apply the MicroG's signature spoofing patch
-# Valid values are "no", "yes" (for the original MicroG's patch) and
-# "restricted" (to grant the permission only to the system privileged apps).
-#
-# The original ("yes") patch allows user apps to gain the ability to spoof
-# themselves as other apps, which can be a major security threat. Using the
-# restricted patch and embedding the apps that requires it as system privileged
-# apps is a much secure option. See the README.md ("Custom mode") for an
-# example.
-ENV SIGNATURE_SPOOFING "no"
-
 # Delete old zips in $ZIP_DIR, keep only the N latest one (0 to disable)
 ENV DELETE_OLD_ZIPS 0
 
@@ -127,14 +116,12 @@ ENV REPO_INIT_ARGS ""
 # Allowed values: positive, non-null integers
 ENV RETRY_FETCHES=
 
-
 # variables to control whether or not tasks are implemented
 ENV INIT_MIRROR true
 ENV SYNC_MIRROR true
 ENV CALL_REPO_INIT true
 ENV CALL_REPO_SYNC true
 ENV CALL_GIT_LFS_PULL false
-ENV APPLY_PATCHES true
 ENV PREPARE_BUILD_ENVIRONMENT true
 ENV CALL_BREAKFAST true
 ENV CALL_MKA true
