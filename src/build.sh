@@ -194,9 +194,9 @@ for branch in ${BRANCH_NAME//,/ }; do
     if [ -f "vendor/$vendor/config/version.mk" ]; then
       makefile_containing_version="vendor/$vendor/config/version.mk"
     fi
-    los_ver_major=$(sed -n -e 's/^\s*PRODUCT_VERSION_MAJOR = //p' "$makefile_containing_version")
-    los_ver_minor=$(sed -n -e 's/^\s*PRODUCT_VERSION_MINOR = //p' "$makefile_containing_version")
-    los_ver="$los_ver_major.$los_ver_minor"
+    iode_ver_major=$(sed -n -e 's/^\s*PRODUCT_VERSION_MAJOR = //p' "$makefile_containing_version")
+    iode_ver_minor=$(sed -n -e 's/^\s*PRODUCT_VERSION_MINOR = //p' "$makefile_containing_version")
+    iode_ver="$iode_ver_major.$iode_ver_minor"
 
     echo ">> [$(date)] Setting \"$RELEASE_TYPE\" as release type"
     sed -i "/\$(filter .*\$(${vendor^^}_BUILDTYPE)/,/endif/d" "$makefile_containing_version"
@@ -297,7 +297,7 @@ for branch in ${BRANCH_NAME//,/ }; do
           logsubdir=
         fi
 
-        DEBUG_LOG="$LOGS_DIR/$logsubdir/iode-$los_ver-$builddate-$RELEASE_TYPE-$codename.log"
+        DEBUG_LOG="$LOGS_DIR/$logsubdir/iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename.log"
 
         breakfast_returncode=0
         if [ "$CALL_BREAKFAST" = true ]; then
@@ -336,7 +336,7 @@ for branch in ${BRANCH_NAME//,/ }; do
               # make the `-img.zip` file
               echo ">> [$(date)] Making -img.zip file" | tee -a "$DEBUG_LOG"
               infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root.zip"
-              img_zip_file="iode-$los_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
+              img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
               img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
 
               # move it to the zips directory
@@ -362,7 +362,7 @@ for branch in ${BRANCH_NAME//,/ }; do
             echo ">> [$(date)] Zipping the .img files" | tee -a "$DEBUG_LOG"
 
             files_to_zip=()
-            images_zip_file="iode-$los_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
+            images_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
             cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root/IMAGES/"
 
             for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
@@ -380,7 +380,7 @@ for branch in ${BRANCH_NAME//,/ }; do
             echo ">> [$(date)] Zipping the '-img' files disabled"
             for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
               if [ -f "$image.img" ]; then
-                recovery_name="iode-$los_ver-$builddate-$RELEASE_TYPE-$codename-$image.img"
+                recovery_name="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-$image.img"
                 echo ">> [$(date)] Copying $image.img" to "$ZIP_DIR/$zipsubdir/$recovery_name" >> "$DEBUG_LOG"
                 cp "$image.img" "$ZIP_DIR/$zipsubdir/$recovery_name" &>> "$DEBUG_LOG"
                 files_to_hash+=( "$recovery_name" )
@@ -405,16 +405,16 @@ for branch in ${BRANCH_NAME//,/ }; do
         # Remove old zips and logs
         if [ "$DELETE_OLD_ZIPS" -gt "0" ]; then
           if [ "$ZIP_SUBDIR" = true ]; then
-            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_ZIPS" -V "$los_ver" -N 1 "$ZIP_DIR/$zipsubdir"
+            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_ZIPS" -V "$iode_ver" -N 1 "$ZIP_DIR/$zipsubdir"
           else
-            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_ZIPS" -V "$los_ver" -N 1 -c "$codename" "$ZIP_DIR"
+            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_ZIPS" -V "$iode_ver" -N 1 -c "$codename" "$ZIP_DIR"
           fi
         fi
         if [ "$DELETE_OLD_LOGS" -gt "0" ]; then
           if [ "$LOGS_SUBDIR" = true ]; then
-            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_LOGS" -V "$los_ver" -N 1 "$LOGS_DIR/$logsubdir"
+            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_LOGS" -V "$iode_ver" -N 1 "$LOGS_DIR/$logsubdir"
           else
-            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_LOGS" -V "$los_ver" -N 1 -c "$codename" "$LOGS_DIR"
+            /usr/bin/python /root/clean_up.py -n "$DELETE_OLD_LOGS" -V "$iode_ver" -N 1 -c "$codename" "$LOGS_DIR"
           fi
         fi
         if [ -f /root/userscripts/post-build.sh ]; then

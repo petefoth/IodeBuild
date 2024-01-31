@@ -54,8 +54,8 @@ ENV RELEASE_TYPE 'UNOFFICIAL'
 ENV OTA_URL ''
 
 # User identity
-ENV USER_NAME 'LineageOS Buildbot'
-ENV USER_MAIL 'lineageos-buildbot@docker.host'
+ENV USER_NAME 'IodeOS Buildbot'
+ENV USER_MAIL 'iodeos-buildbot@docker.host'
 
 # Include proprietary files, downloaded automatically from github.com/TheMuppets/ and gitlab.com/the-muppets/
 # Only some branches are supported
@@ -77,8 +77,6 @@ ENV CRONTAB_TIME 'now'
 
 # Clean artifacts output after each build
 ENV CLEAN_AFTER_BUILD true
-
-
 
 # Provide a default JACK configuration in order to avoid out-of-memory issues
 ENV ANDROID_JACK_VM_ARGS "-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
