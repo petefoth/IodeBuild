@@ -131,7 +131,6 @@ ENV RETRY_FETCHES=
 # variables to control whether or not tasks are implemented
 ENV INIT_MIRROR true
 ENV SYNC_MIRROR true
-ENV RESET_VENDOR_UNDO_PATCHES true
 ENV CALL_REPO_INIT true
 ENV CALL_REPO_SYNC true
 ENV CALL_GIT_LFS_PULL false

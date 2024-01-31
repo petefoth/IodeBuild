@@ -145,21 +145,6 @@ for branch in ${BRANCH_NAME//,/ }; do
     echo ">> [$(date)] Branch:  $branch"
     echo ">> [$(date)] Devices: $devices"
 
-    if [ "$RESET_VENDOR_UNDO_PATCHES" = true ]; then
-      # Remove previous changes of vendor/cm, vendor/lineage and frameworks/base (if they exist)
-      # TODO: maybe reset everything using https://source.android.com/setup/develop/repo#forall
-      for path in "vendor/cm" "vendor/lineage" "frameworks/base" "packages/apps/PermissionController" "packages/modules/Permission"; do
-        if [ -d "$path" ]; then
-          cd "$path"
-          git reset -q --hard
-          git clean -q -fd
-          cd "$SRC_DIR/$branch_dir"
-        fi
-      done
-    else
-      echo ">> [$(date)] Resetting vendor and undoing patches disabled" | tee -a "$repo_log"
-    fi
-
     if [ "$CALL_REPO_INIT" = true ]; then
       echo ">> [$(date)] (Re)initializing branch repository" | tee -a "$repo_log"
       if [ "$LOCAL_MIRROR" = true ]; then
