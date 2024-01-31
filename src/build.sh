@@ -119,44 +119,17 @@ for branch in ${BRANCH_NAME//,/ }; do
     apps_permissioncontroller_patch=""
     modules_permission_patch=""
     case "$branch" in
-      cm-14.1*)
-        vendor="cm"
-        themuppets_branch="cm-14.1"
-        android_version="7.1.2"
-        frameworks_base_patch="android_frameworks_base-N.patch"
-        ;;
-      lineage-15.1*)
-        themuppets_branch="lineage-15.1"
-        android_version="8.1"
-        frameworks_base_patch="android_frameworks_base-O.patch"
-        ;;
-      lineage-16.0*)
-        themuppets_branch="lineage-16.0"
-        android_version="9"
-        frameworks_base_patch="android_frameworks_base-P.patch"
-        ;;
-      lineage-17.1*)
-        themuppets_branch="lineage-17.1"
-        android_version="10"
-        frameworks_base_patch="android_frameworks_base-Q.patch"
-        ;;
-      lineage-18.1*)
+      v2*)
         themuppets_branch="lineage-18.1"
         android_version="11"
-        frameworks_base_patch="android_frameworks_base-R.patch"
-        apps_permissioncontroller_patch="packages_apps_PermissionController-R.patch"
         ;;
-      lineage-19.1*)
+      v3*)
         themuppets_branch="lineage-19.1"
         android_version="12"
-        frameworks_base_patch="android_frameworks_base-S.patch"
-        modules_permission_patch="packages_modules_Permission-S.patch"
         ;;
-      lineage-20.0*)
+      v4*)
         themuppets_branch="lineage-20.0"
         android_version="13"
-        frameworks_base_patch="android_frameworks_base-Android13.patch"
-        modules_permission_patch="packages_modules_Permission-Android13.patch"
         ;;
       *)
         echo ">> [$(date)] Building branch $branch is not (yet) suppported"
