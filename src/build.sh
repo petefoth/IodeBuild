@@ -297,7 +297,7 @@ for branch in ${BRANCH_NAME//,/ }; do
           logsubdir=
         fi
 
-        DEBUG_LOG="$LOGS_DIR/$logsubdir/lineage-$los_ver-$builddate-$RELEASE_TYPE-$codename.log"
+        DEBUG_LOG="$LOGS_DIR/$logsubdir/iode-$los_ver-$builddate-$RELEASE_TYPE-$codename.log"
 
         breakfast_returncode=0
         if [ "$CALL_BREAKFAST" = true ]; then
@@ -335,8 +335,8 @@ for branch in ${BRANCH_NAME//,/ }; do
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
               # make the `-img.zip` file
               echo ">> [$(date)] Making -img.zip file" | tee -a "$DEBUG_LOG"
-              infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root.zip"
-              img_zip_file="lineage-$los_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
+              infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root.zip"
+              img_zip_file="iode-$los_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
               img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
 
               # move it to the zips directory
@@ -350,20 +350,20 @@ for branch in ${BRANCH_NAME//,/ }; do
           echo ">> [$(date)] Moving build artifacts for $codename to '$ZIP_DIR/$zipsubdir'" | tee -a "$DEBUG_LOG"
           cd out/target/product/"$codename"
 
-          for build in lineage-*.zip; do
+          for build in iode-*.zip; do
             cp -v system/build.prop "$ZIP_DIR/$zipsubdir/$build.prop" &>> "$DEBUG_LOG"
             mv "$build" "$ZIP_DIR/$zipsubdir/" &>> "$DEBUG_LOG"
             files_to_hash+=( "$build" )
           done
 
-          cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root/IMAGES/"
+          cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root/IMAGES/"
           if [ "$ZIP_UP_IMAGES" = true ]; then
             # zipping the .img files
             echo ">> [$(date)] Zipping the .img files" | tee -a "$DEBUG_LOG"
 
             files_to_zip=()
-            images_zip_file="lineage-$los_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
-            cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root/IMAGES/"
+            images_zip_file="iode-$los_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
+            cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root/IMAGES/"
 
             for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
               if [ -f "$image.img" ]; then
@@ -380,7 +380,7 @@ for branch in ${BRANCH_NAME//,/ }; do
             echo ">> [$(date)] Zipping the '-img' files disabled"
             for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
               if [ -f "$image.img" ]; then
-                recovery_name="lineage-$los_ver-$builddate-$RELEASE_TYPE-$codename-$image.img"
+                recovery_name="iode-$los_ver-$builddate-$RELEASE_TYPE-$codename-$image.img"
                 echo ">> [$(date)] Copying $image.img" to "$ZIP_DIR/$zipsubdir/$recovery_name" >> "$DEBUG_LOG"
                 cp "$image.img" "$ZIP_DIR/$zipsubdir/$recovery_name" &>> "$DEBUG_LOG"
                 files_to_hash+=( "$recovery_name" )

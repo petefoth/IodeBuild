@@ -24,7 +24,7 @@ from datetime import datetime
 from argparse import ArgumentParser
 
 
-ROM_NAME = "lineage"
+ROM_NAME = "iode"
 
 def clean_path(path, builds_to_keep, current_version, old_builds_to_keep,
                current_codename):
@@ -83,7 +83,7 @@ def main():
     parser.add_argument('-n', metavar='N_BUILDS', type=int, nargs='?',
                         default=3, help='select the number of builds to keep')
     parser.add_argument('-V', metavar="VERSION", type=str, nargs='?',
-                        help='current LineageOS version: if specified, '
+                        help='current IodeOS version: if specified, '
                         'N_BUILDS of version VERSION will be kept, while for '
                         'the others N_BUILDS_OLD will be used')
     parser.add_argument('-N', metavar='N_BUILDS_OLD', type=int, nargs='?',
