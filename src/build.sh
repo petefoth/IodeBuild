@@ -268,6 +268,9 @@ for branch in ${BRANCH_NAME//,/ }; do
     for codename in ${devices//,/ }; do
       if [ -n "$codename" ]; then
 
+      # reset build date for each device, for long-running build runs
+        builddate=$(date +%Y%m%d)
+
         if [ "$BUILD_OVERLAY" = true ]; then
           lowerdir=$SRC_DIR/$branch_dir
           upperdir=$TMP_DIR/device
