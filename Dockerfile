@@ -1,5 +1,5 @@
-FROM ubuntu:22.04@sha256:e9569c25505f33ff72e88b2990887c9dcf230f23259da296eb814fc2b41af999
-LABEL maintainer="Nicola Corna <nicola@corna.info>"
+FROM ubuntu:22.04@sha256:e6173d4dc55e76b87c4af8db8821b1feae4146dd47341e4d431118c7dd060a74
+LABEL maintainer="Pete Fotheringham <petefoth@e.email>"
 
 # Environment variables
 #######################
@@ -13,6 +13,12 @@ ENV LMANIFEST_DIR /srv/local_manifests
 ENV KEYS_DIR /srv/keys
 ENV LOGS_DIR /srv/logs
 ENV USERSCRIPTS_DIR /srv/userscripts
+
+
+ENV SRC_REPO 'https://gitlab.com/iode/os/public/manifests/android.git'
+
+# Not sure about this one
+ENV MIRROR_REPO 'https://github.com/LineageOS/mirror'
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV USER root
@@ -33,8 +39,8 @@ ENV CCACHE_SIZE 50G
 ENV CCACHE_EXEC /usr/bin/ccache
 
 # Environment for the LineageOS branches name
-# See https://github.com/LineageOS/android/branches for possible options
-ENV BRANCH_NAME 'lineage-16.0'
+# See https://gitlab.com/iode/os/public/manifests/android/-/branches for possible options
+ENV BRANCH_NAME 'v4-staging'
 
 # Environment for the device list (separate by comma if more than one)
 # eg. DEVICE_LIST=hammerhead,bullhead,angler
