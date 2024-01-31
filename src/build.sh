@@ -3,6 +3,7 @@
 # Docker build script
 # Copyright (c) 2017 Julian Xhokaxhiu
 # Copyright (C) 2017-2018 Nicola Corna <nicola@corna.info>
+# Copyright (c) 2024 Pete Fotheringham <petefoth@e.email>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
