@@ -14,7 +14,6 @@ ENV KEYS_DIR /srv/keys
 ENV LOGS_DIR /srv/logs
 ENV USERSCRIPTS_DIR /srv/userscripts
 
-
 ENV SRC_REPO 'https://gitlab.com/iode/os/public/manifests/android.git'
 
 # Not sure about this one
@@ -79,7 +78,7 @@ ENV CRONTAB_TIME 'now'
 ENV CLEAN_AFTER_BUILD true
 
 # Provide a default JACK configuration in order to avoid out-of-memory issues
-ENV ANDROID_JACK_VM_ARGS "-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
+#ENV ANDROID_JACK_VM_ARGS "-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx4G"
 
 # Custom packages to be installed
 ENV CUSTOM_PACKAGES ''
@@ -169,7 +168,7 @@ RUN curl https://storage.googleapis.com/git-repo-downloads/repo > /usr/local/bin
 # Re-enable TLSv1 and TLSv1.1 in OpenJDK 8 config
 #(for cm-14.1/lineage-15.1, might be removed later)
 ###################################################
-RUN echo "jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, include jdk.disabled.namedCurves" | tee -a /etc/java-8-openjdk/security/java.security
+#RUN echo "jdk.tls.disabledAlgorithms=SSLv3, RC4, DES, MD5withRSA, DH keySize < 1024, EC keySize < 224, 3DES_EDE_CBC, anon, NULL, include jdk.disabled.namedCurves" | tee -a /etc/java-8-openjdk/security/java.security
 
 # Copy required files
 #####################
