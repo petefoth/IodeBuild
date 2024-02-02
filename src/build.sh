@@ -339,7 +339,7 @@ for branch in ${BRANCH_NAME//,/ }; do
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
               # make the `-img.zip` file
               echo ">> [$(date)] Making -img.zip file" | tee -a "$DEBUG_LOG"
-              infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root.zip"
+              infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root.zip"
               img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
               img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
 
@@ -360,14 +360,14 @@ for branch in ${BRANCH_NAME//,/ }; do
             files_to_hash+=( "$build" )
           done
 
-          cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root/IMAGES/"
+          cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root/IMAGES/"
           if [ "$ZIP_UP_IMAGES" = true ]; then
             # zipping the .img files
             echo ">> [$(date)] Zipping the .img files" | tee -a "$DEBUG_LOG"
 
             files_to_zip=()
             images_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
-            cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/iode_$codename-target_files-eng.root/IMAGES/"
+            cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root/IMAGES/"
 
             for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
               if [ -f "$image.img" ]; then
