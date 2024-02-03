@@ -7,7 +7,7 @@ on:
 env:
   REGISTRY: docker.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ secrets.DOCKERHUB_REPOSITORY }}
+  IMAGE_NAME: ${{ petefothl4m/iodebuild }}
 
 jobs:
   build:
