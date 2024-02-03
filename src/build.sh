@@ -49,7 +49,9 @@ fi
 #      $KEYS_DIR $LOGS_DIR $USERSCRIPTS_DIR) are sudirectories of $SRC_DIR, then
 #    this code will move them to $branch_dir
 if [ -d "$SRC_DIR/.repo" ]; then
-  branch_dir=$(sed 's/[^[:alnum:]]/_/g'  <<< "${BRANCH_NAME}")
+#  branch_dir=$(sed 's/[^[:alnum:]]/_/g'  <<< "${BRANCH_NAME}")
+  branch_dir=$(sed "${BRANCH_NAME}" 's/[^[:alnum:]]/_/g' )
+
   branch_dir=${branch_dir^^}
   echo ">> [$(date)] WARNING: old source dir detected, moving source from \"\$SRC_DIR\" to \"\$SRC_DIR/$branch_dir\""
   if [ -d "$branch_dir" ] && [ -z "$(ls -A "$branch_dir")" ]; then
