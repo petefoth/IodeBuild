@@ -126,9 +126,9 @@ See the [`lineageos4microg/docker-lineage-cicd` documentation](https://github.co
 - [Proprietary files](https://github.com/lineageos4microg/docker-lineage-cicd/blob/master/README.md#proprietary-files)
 - [Over the Air updates](https://github.com/lineageos4microg/docker-lineage-cicd/blob/master/README.md#over-the-air-updates)
 
-## Examples
+### Examples
 
-### Build for a device officially supported by LineageOS
+#### Build for a device officially supported by LineageOS
 (In this example, Google Pixel 4a `sunfish`).
 - Proprietary files are available from `TheMuppets`, and device and kernel sources are in the LineageOS github repos, so no need for a manifest file.
 - Build signed with my own keys which I have placed in `/home/pete/srv/keys`. If there are no keys in `/home/user/keys`, a new set will be generated in that directory before starting the build,  (and will be used for every subsequent build).
@@ -154,7 +154,7 @@ docker run \
   -e "MAKE_IMG_ZIP_FILE=true" \
   petefothl4m/iodebuild
 ```
-### Build for a device not officially supported by LineageOS
+#### Build for a device not officially supported by LineageOS
 (In this example, Sony Xperia XZ1 Compact `lilac`)
 - Signed with test keys
 - Needs a manifest (a file with the extension `.xml`) in `/srv/local_manifests`, specifying where to find device and kernel sources, and proprietary blobs.
@@ -195,7 +195,7 @@ docker run \
 
 ## How do I install the IodéOS for MicroG ROM
 
-Follow the LineageOS installation instructions for your device, which can be accessed from the [LineageOS Devices wiki pages](https://wiki.lineageos.org/devices/). If the LineageOS installation instructions require or refer to any `.img` files, these images can be obtained by unzipping the `-images.zip` or `-img.zip` file mentioned [above](What does Docker build) in the previous section.
+Follow the LineageOS installation instructions for your device, which can be accessed from the [LineageOS Devices wiki pages](https://wiki.lineageos.org/devices/). If the LineageOS installation instructions require or refer to any `.img` files, these images can be obtained by unzipping the `-images.zip` or `-img.zip` file mentioned [above](https://github.com/petefoth/IodeBuild/tree/doc-changes-2402#what-does-docker-build) in the previous section.
 
 ### 'Clean' and 'dirty' flashing
 
