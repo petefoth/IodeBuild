@@ -122,6 +122,7 @@ for branch in ${BRANCH_NAME//,/ }; do
 
   if [ -n "$branch" ] && [ -n "$devices" ]; then
     vendor=lineage
+    # `themuppets_branch` aplies to `TheMuppets/manifests` repo
     case "$branch" in
       v2*)
         themuppets_branch="lineage-18.1"
@@ -136,7 +137,7 @@ for branch in ${BRANCH_NAME//,/ }; do
         android_version="13"
         ;;
       v5*)
-        themuppets_branch="lineage-21"
+        themuppets_branch="lineage-21.0"
         android_version="14"
         ;;
       *)
