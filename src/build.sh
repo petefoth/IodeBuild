@@ -344,9 +344,10 @@ for branch in ${BRANCH_NAME//,/ }; do
 
           if (set +eu ; mka "${jobs_arg[@]}" bacon) &>> "$DEBUG_LOG"; then
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
-              # make the `-img.zip` file
-              echo ">> [$(date)] Making -img.zip file" | tee -a "$DEBUG_LOG"
-              infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files.zip"
+              # make the `-img.zip` file - where is it?
+              infile=$(find "$source_dir/out/target/product/$codename/obj/PACKAGING" -name "lineage_$codename-target_files*.zip")
+              echo ">> [$(date)] Making -img.zip file from $infile" | tee -a "$DEBUG_LOG"
+              
               img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
               img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
 
