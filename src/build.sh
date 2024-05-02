@@ -122,6 +122,7 @@ for branch in ${BRANCH_NAME//,/ }; do
 
   if [ -n "$branch" ] && [ -n "$devices" ]; then
     vendor=lineage
+    # `themuppets_branch` aplies to `TheMuppets/manifests` repo
     case "$branch" in
       v2*)
         themuppets_branch="lineage-18.1"
@@ -134,6 +135,10 @@ for branch in ${BRANCH_NAME//,/ }; do
       v4*)
         themuppets_branch="lineage-20.0"
         android_version="13"
+        ;;
+      v5*)
+        themuppets_branch="lineage-21.0"
+        android_version="14"
         ;;
       *)
         echo ">> [$(date)] Building branch $branch is not (yet) suppported"
@@ -339,9 +344,10 @@ for branch in ${BRANCH_NAME//,/ }; do
 
           if (set +eu ; mka "${jobs_arg[@]}" bacon) &>> "$DEBUG_LOG"; then
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
-              # make the `-img.zip` file
-              echo ">> [$(date)] Making -img.zip file" | tee -a "$DEBUG_LOG"
-              infile="out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root.zip"
+              # make the `-img.zip` file - where is it?
+              infile=$(find "$source_dir/out/target/product/$codename/obj/PACKAGING" -name "lineage_$codename-target_files*.zip")
+              echo ">> [$(date)] Making -img.zip file from $infile" | tee -a "$DEBUG_LOG"
+              
               img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
               img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
 
@@ -362,14 +368,19 @@ for branch in ${BRANCH_NAME//,/ }; do
             files_to_hash+=( "$build" )
           done
 
-          cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root/IMAGES/"
+          # Now handle the .img files - where are they?
+          img_dir=$(find "$source_dir/out/target/product/$codename/obj/PACKAGING" -name "IMAGES")
+          if [ -d "$img_dir" ]; then
+            cd "$img_dir"
+          fi
+
           if [ "$ZIP_UP_IMAGES" = true ]; then
             # zipping the .img files
             echo ">> [$(date)] Zipping the .img files" | tee -a "$DEBUG_LOG"
 
             files_to_zip=()
             images_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
-            cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files-eng.root/IMAGES/"
+            cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files/IMAGES/"
 
             for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
               if [ -f "$image.img" ]; then
