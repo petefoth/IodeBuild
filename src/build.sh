@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#
 # Docker build script
 # Copyright (c) 2017 Julian Xhokaxhiu
 # Copyright (C) 2017-2018 Nicola Corna <nicola@corna.info>
