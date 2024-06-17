@@ -345,16 +345,21 @@ for branch in ${BRANCH_NAME//,/ }; do
 
           if (set +eu ; mka "${jobs_arg[@]}" target-files-package bacon) &>> "$DEBUG_LOG"; then
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
-              # make the `-img.zip` file - where is it?
-              infile=$(find "$source_dir/out/target/product/$codename/obj/PACKAGING" -name "lineage_$codename-target_files*.zip")
-              echo ">> [$(date)] Making -img.zip file from $infile" | tee -a "$DEBUG_LOG"
+              # make the `-img.zip` file 
               
-              img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
-              img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
-
-              # move it to the zips directory
-              mv "$img_zip_file" "$ZIP_DIR/$zipsubdir/" &>> "$DEBUG_LOG"
-              files_to_hash+=( "$img_zip_file" )
+              # where is it?
+              infile=$(find "$source_dir" -name "lineage_$codename-target_files*.zip")
+              if [ -z "$infile" ]; then
+                echo ">> [$(date)] $infile does not exist"  | tee -a "$DEBUG_LOG"
+              else
+                echo ">> [$(date)] Making -img.zip file from $infile" | tee -a "$DEBUG_LOG"
+                img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
+                img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
+              
+                # move img_zip_file to the zips directory
+                mv "$img_zip_file" "$ZIP_DIR/$zipsubdir/" &>> "$DEBUG_LOG"
+                files_to_hash+=( "$img_zip_file" )
+              fi
             else
               echo ">> [$(date)] Making -img.zip file disabled"
             fi
