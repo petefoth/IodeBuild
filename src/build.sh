@@ -343,7 +343,7 @@ for branch in ${BRANCH_NAME//,/ }; do
           build_successful=false
           files_to_hash=()
 
-          if (set +eu ; mka "${jobs_arg[@]}" bacon) &>> "$DEBUG_LOG"; then
+          if (set +eu ; mka "${jobs_arg[@]}" target-files-package bacon) &>> "$DEBUG_LOG"; then
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
               # make the `-img.zip` file - where is it?
               infile=$(find "$source_dir/out/target/product/$codename/obj/PACKAGING" -name "lineage_$codename-target_files*.zip")
