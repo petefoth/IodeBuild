@@ -3,7 +3,7 @@
 # Docker init script
 # Copyright (c) 2017 Julian Xhokaxhiu
 # Copyright (C) 2017-2018 Nicola Corna <nicola@corna.info>
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -50,7 +50,7 @@ if [ "$SIGN_BUILDS" = true ]; then
         fi
       done
     done
-    
+
     # those keys are only required starting with android-20, so people who have built earlier might not yet have them
     for c in sdk_sandbox bluetooth; do
       if [ ! -f "$KEYS_DIR/$c.pk8" ]; then
@@ -59,22 +59,6 @@ if [ "$SIGN_BUILDS" = true ]; then
       fi
     done
   fi
-  
-  # Android 14 requires to set a BUILD file for bazel to avoid errors:
-  cat > "$KEYS_DIR"/BUILD << _EOB
-# adding an empty BUILD file fixes the A14 build error:
-# "ERROR: no such package 'keys': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package."
-# adding the filegroup "android_certificate_directory" fixes the A14 build error:
-# "no such target '//keys:android_certificate_directory': target 'android_certificate_directory' not declared in package 'keys'"
-filegroup(
-name = "android_certificate_directory",
-srcs = glob([
-	"*.pk8",
-	"*.pem",
-]),
-visibility = ["//visibility:public"],
-)
-_EOB
 
 
   for c in cyngn{-priv,}-app testkey; do
@@ -83,6 +67,24 @@ _EOB
     done
   done
 fi
+
+# Android 14 requires to set a BUILD file for bazel to avoid errors:
+cat > "$KEYS_DIR"/BUILD << _EOB
+# adding an empty BUILD file fixes the A14 build error:
+# "ERROR: no such package 'keys': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package."
+# adding the filegroup "android_certificate_directory" fixes the A14 build error:
+# "no such target '//keys:android_certificate_directory': target 'android_certificate_directory' not declared in package 'keys'"
+filegroup(
+name = "android_certificate_directory",
+srcs = glob([
+  "*.pk8",
+  "*.pem",
+]),
+visibility = ["//visibility:public"],
+)
+_EOB
+
+
 
 if [ "$CRONTAB_TIME" = "now" ]; then
   /root/build.sh
