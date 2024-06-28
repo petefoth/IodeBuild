@@ -37,7 +37,7 @@ git config --global user.email "$USER_MAIL"
 if [ "$SIGN_BUILDS" = true ]; then
   if [ -z "$(ls -A "$KEYS_DIR")" ]; then
     echo ">> [$(date)] SIGN_BUILDS = true but empty \$KEYS_DIR, generating new keys"
-    for c in releasekey platform shared media networkstack sdk_sandbox bluetooth; do
+    for c in bluetooth media networkstack nfc platform releasekey sdk_sandbox shared testcert verity; do
       echo ">> [$(date)]  Generating $c..."
       /root/make_key "$KEYS_DIR/$c" "$KEYS_SUBJECT" <<< '' &> /dev/null
     done
