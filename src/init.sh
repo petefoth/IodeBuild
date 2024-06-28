@@ -35,31 +35,12 @@ git config --global user.name "$USER_NAME"
 git config --global user.email "$USER_MAIL"
 
 if [ "$SIGN_BUILDS" = true ]; then
-  if [ -z "$(ls -A "$KEYS_DIR")" ]; then
-    echo ">> [$(date)] SIGN_BUILDS = true but empty \$KEYS_DIR, generating new keys"
-    for c in bluetooth media networkstack nfc platform releasekey sdk_sandbox shared testcert verity; do
+  for c in bluetooth media networkstack nfc platform releasekey sdk_sandbox shared testcert verity ; do
+    if [ ! -f "$KEYS_DIR/$c.pk8" ]; then
       echo ">> [$(date)]  Generating $c..."
       /root/make_key "$KEYS_DIR/$c" "$KEYS_SUBJECT" <<< '' &> /dev/null
-    done
-  else
-    for c in releasekey platform shared media networkstack; do
-      for e in pk8 x509.pem; do
-        if [ ! -f "$KEYS_DIR/$c.$e" ]; then
-          echo ">> [$(date)] SIGN_BUILDS = true and not empty \$KEYS_DIR, but \"\$KEYS_DIR/$c.$e\" is missing"
-          exit 1
-        fi
-      done
-    done
-
-    # those keys are only required starting with android-20, so people who have built earlier might not yet have them
-    for c in sdk_sandbox bluetooth; do
-      if [ ! -f "$KEYS_DIR/$c.pk8" ]; then
-        echo ">> [$(date)]  Generating $c..."
-        /root/make_key "$KEYS_DIR/$c" "$KEYS_SUBJECT" <<< '' &> /dev/null
-      fi
-    done
-  fi
-
+    fi
+  done
 
   for c in cyngn{-priv,}-app testkey; do
     for e in pk8 x509.pem; do
