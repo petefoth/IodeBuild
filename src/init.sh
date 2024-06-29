@@ -3,7 +3,7 @@
 # Docker init script
 # Copyright (c) 2017 Julian Xhokaxhiu
 # Copyright (C) 2017-2018 Nicola Corna <nicola@corna.info>
-# 
+#
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
@@ -35,47 +35,12 @@ git config --global user.name "$USER_NAME"
 git config --global user.email "$USER_MAIL"
 
 if [ "$SIGN_BUILDS" = true ]; then
-  if [ -z "$(ls -A "$KEYS_DIR")" ]; then
-    echo ">> [$(date)] SIGN_BUILDS = true but empty \$KEYS_DIR, generating new keys"
-    for c in releasekey platform shared media networkstack sdk_sandbox bluetooth; do
+  for c in bluetooth media networkstack nfc platform releasekey sdk_sandbox shared testcert verity ; do
+    if [ ! -f "$KEYS_DIR/$c.pk8" ]; then
       echo ">> [$(date)]  Generating $c..."
       /root/make_key "$KEYS_DIR/$c" "$KEYS_SUBJECT" <<< '' &> /dev/null
-    done
-  else
-    for c in releasekey platform shared media networkstack; do
-      for e in pk8 x509.pem; do
-        if [ ! -f "$KEYS_DIR/$c.$e" ]; then
-          echo ">> [$(date)] SIGN_BUILDS = true and not empty \$KEYS_DIR, but \"\$KEYS_DIR/$c.$e\" is missing"
-          exit 1
-        fi
-      done
-    done
-    
-    # those keys are only required starting with android-20, so people who have built earlier might not yet have them
-    for c in sdk_sandbox bluetooth; do
-      if [ ! -f "$KEYS_DIR/$c.pk8" ]; then
-        echo ">> [$(date)]  Generating $c..."
-        /root/make_key "$KEYS_DIR/$c" "$KEYS_SUBJECT" <<< '' &> /dev/null
-      fi
-    done
-  fi
-  
-  # Android 14 requires to set a BUILD file for bazel to avoid errors:
-  cat > "$KEYS_DIR"/BUILD << _EOB
-# adding an empty BUILD file fixes the A14 build error:
-# "ERROR: no such package 'keys': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package."
-# adding the filegroup "android_certificate_directory" fixes the A14 build error:
-# "no such target '//keys:android_certificate_directory': target 'android_certificate_directory' not declared in package 'keys'"
-filegroup(
-name = "android_certificate_directory",
-srcs = glob([
-	"*.pk8",
-	"*.pem",
-]),
-visibility = ["//visibility:public"],
-)
-_EOB
-
+    fi
+  done
 
   for c in cyngn{-priv,}-app testkey; do
     for e in pk8 x509.pem; do
@@ -83,6 +48,24 @@ _EOB
     done
   done
 fi
+
+# Android 14 requires to set a BUILD file for bazel to avoid errors:
+cat > "$KEYS_DIR"/BUILD << _EOB
+# adding an empty BUILD file fixes the A14 build error:
+# "ERROR: no such package 'keys': BUILD file not found in any of the following directories. Add a BUILD file to a directory to mark it as a package."
+# adding the filegroup "android_certificate_directory" fixes the A14 build error:
+# "no such target '//keys:android_certificate_directory': target 'android_certificate_directory' not declared in package 'keys'"
+filegroup(
+name = "android_certificate_directory",
+srcs = glob([
+  "*.pk8",
+  "*.pem",
+]),
+visibility = ["//visibility:public"],
+)
+_EOB
+
+
 
 if [ "$CRONTAB_TIME" = "now" ]; then
   /root/build.sh
