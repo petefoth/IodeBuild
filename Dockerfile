@@ -38,7 +38,7 @@ ENV CCACHE_SIZE 50G
 ENV CCACHE_EXEC /usr/bin/ccache
 
 # Environment for the LineageOS branches name
-# See https://gitlab.com/iode/os/public/manifests/android/-/branches for possible options
+# See https://gitlab.iode.tech/iode/os/public/manifests/android/-/branches for possible options
 ENV BRANCH_NAME 'v4-staging'
 
 # Environment for the device list (separate by comma if more than one)
