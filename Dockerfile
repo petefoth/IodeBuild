@@ -14,7 +14,7 @@ ENV KEYS_DIR /srv/keys
 ENV LOGS_DIR /srv/logs
 ENV USERSCRIPTS_DIR /srv/userscripts
 
-ENV SRC_REPO 'https://gitlab.com/iode/os/public/manifests/android.git'
+ENV SRC_REPO 'https://gitlab.iode.tech/iode/os/public/manifests/android.git'
 
 # Not sure about this one
 ENV MIRROR_REPO 'https://github.com/LineageOS/mirror'
