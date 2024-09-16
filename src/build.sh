@@ -158,9 +158,9 @@ for branch in ${BRANCH_NAME//,/ }; do
     if [ "$CALL_REPO_INIT" = true ]; then
       echo ">> [$(date)] (Re)initializing branch repository" | tee -a "$repo_log"
       if [ "$LOCAL_MIRROR" = true ]; then
-        ( yes||: ) | repo init -u "$SRC_REPO" --reference "$MIRROR_DIR" -b "$branch" --git-lfs &>> "$repo_log"
+        ( yes||: ) | repo init -u "$SRC_REPO" --reference "$MIRROR_DIR" -b "$branch" -g default,-darwin,-muppets --git-lfs &>> "$repo_log"
       else
-        ( yes||: ) | repo init -u "$SRC_REPO"  -b "$branch" --git-lfs &>> "$repo_log"
+        ( yes||: ) | repo init -u "$SRC_REPO"  -b "$branch" -g default,-darwin,-muppets --git-lfs &>> "$repo_log"
       fi
     else
       echo ">> [$(date)] Calling repo init disabled"
