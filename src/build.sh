@@ -388,7 +388,7 @@ for branch in ${BRANCH_NAME//,/ }; do
             images_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-images.zip"
             cd "$source_dir/out/target/product/$codename/obj/PACKAGING/target_files_intermediates/lineage_$codename-target_files/IMAGES/"
 
-            for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot; do
+            for image in recovery boot vendor_boot dtbo super_empty vbmeta vendor_kernel_boot init_boot ; do
               if [ -f "$image.img" ]; then
                 echo ">> [$(date)] Adding $image.img" to "$images_zip_file" | tee -a "$DEBUG_LOG"
                 files_to_zip+=( "$image.img" )
