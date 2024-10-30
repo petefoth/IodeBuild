@@ -345,8 +345,8 @@ for branch in ${BRANCH_NAME//,/ }; do
 
           if (set +eu ; mka "${jobs_arg[@]}" target-files-package bacon) &>> "$DEBUG_LOG"; then
             if [ "$MAKE_IMG_ZIP_FILE" = true ]; then
-              # make the `-img.zip` file 
-              
+              # make the `-img.zip` file
+
               # where is it?
               infile=$(find "$source_dir" -name "lineage_$codename-target_files*.zip")
               if [ -z "$infile" ]; then
@@ -355,7 +355,7 @@ for branch in ${BRANCH_NAME//,/ }; do
                 echo ">> [$(date)] Making -img.zip file from $infile" | tee -a "$DEBUG_LOG"
                 img_zip_file="iode-$iode_ver-$builddate-$RELEASE_TYPE-$codename-img.zip"
                 img_from_target_files "$infile" "$img_zip_file"  &>> "$DEBUG_LOG"
-              
+
                 # move img_zip_file to the zips directory
                 mv "$img_zip_file" "$ZIP_DIR/$zipsubdir/" &>> "$DEBUG_LOG"
                 files_to_hash+=( "$img_zip_file" )
@@ -468,7 +468,12 @@ for branch in ${BRANCH_NAME//,/ }; do
             rm -rf ./* || true
           else
             cd "$source_dir"
-            (set +eu ; mka "${jobs_arg[@]}" clean) &>> "$DEBUG_LOG"
+            echo ">> [$(date)] Removing $PWD/out" | tee -a "$DEBUG_LOG"
+            rm -rf out || true
+            echo ">> [$(date)] Removing $PWD/vendor" | tee -a "$DEBUG_LOG"
+            rm -rf vendor/* || true
+            echo ">> [$(date)] Removing $PWD/.repo/local_manifests/roomservice.xml" | tee -a "$DEBUG_LOG"
+            rm -f .repo/local_manifests/roomservice.xml
           fi
         fi
     done
