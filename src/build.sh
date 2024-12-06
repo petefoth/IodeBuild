@@ -146,7 +146,7 @@ for branch in ${BRANCH_NAME//,/ }; do
         exit 1
         ;;
       esac
-
+    export ROOMSERVICE_BRANCHES="$themuppets_branch"
     android_version_major=$(cut -d '.' -f 1 <<< $android_version)
 
     mkdir -p "$SRC_DIR/$branch_dir"
