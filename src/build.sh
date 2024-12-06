@@ -470,8 +470,6 @@ for branch in ${BRANCH_NAME//,/ }; do
             cd "$source_dir"
             echo ">> [$(date)] Removing $PWD/out" | tee -a "$DEBUG_LOG"
             rm -rf out || true
-#            echo ">> [$(date)] Removing $PWD/vendor" | tee -a "$DEBUG_LOG"
-#            rm -rf vendor/* || true
             echo ">> [$(date)] Removing $PWD/.repo/local_manifests/roomservice.xml" | tee -a "$DEBUG_LOG"
             rm -f .repo/local_manifests/roomservice.xml
           fi
@@ -479,6 +477,11 @@ for branch in ${BRANCH_NAME//,/ }; do
     done
   fi
 done
+
+if [ "$INCLUDE_PROPRIETARY" = true ]; then
+  echo ">> [$(date)] Removing $PWD/vendor" | tee -a "$DEBUG_LOG"
+  rm -rf vendor/* || true
+fi
 
 if [ "$DELETE_OLD_LOGS" -gt "0" ]; then
   find "$LOGS_DIR" -maxdepth 1 -name 'repo-*.log' | sort | head -n -"$DELETE_OLD_LOGS" | xargs -r rm || true
