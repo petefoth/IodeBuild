@@ -176,6 +176,8 @@ for branch in ${BRANCH_NAME//,/ }; do
       wget -q -O .repo/local_manifests/proprietary.xml "https://raw.githubusercontent.com/TheMuppets/manifests/$themuppets_branch/muppets.xml"
       /root/build_manifest.py --remote "https://gitlab.com" --remotename "gitlab_https" \
         "https://gitlab.com/the-muppets/manifest/raw/$themuppets_branch/muppets.xml" .repo/local_manifests/proprietary_gitlab.xml
+      echo ">> [$(date)] Removing $PWD/vendor"
+      rm -rf vendor/* || true
     fi
 
     builddate=$(date +%Y%m%d)
@@ -477,11 +479,11 @@ for branch in ${BRANCH_NAME//,/ }; do
     done
   fi
 done
-
-if [ "$INCLUDE_PROPRIETARY" = true ]; then
-  echo ">> [$(date)] Removing $PWD/vendor" | tee -a "$DEBUG_LOG"
-  rm -rf vendor/* || true
-fi
+#
+# if [ "$INCLUDE_PROPRIETARY" = true ]; then
+#   echo ">> [$(date)] Removing $PWD/vendor" | tee -a "$DEBUG_LOG"
+#   rm -rf vendor/* || true
+# fi
 
 if [ "$DELETE_OLD_LOGS" -gt "0" ]; then
   find "$LOGS_DIR" -maxdepth 1 -name 'repo-*.log' | sort | head -n -"$DELETE_OLD_LOGS" | xargs -r rm || true
